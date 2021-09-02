@@ -10,6 +10,16 @@ namespace ProductGrpc.Models
         public float Price { get; set; }
         public ProductStatus Status { get; set; }
         public DateTime CreatedTime { get; set; }
+
+        public Product(int productId, string name, string description, float price, ProductStatus status, DateTime createdTime)
+        {
+            ProductId = productId;
+            Name = name;
+            Description = description;
+            Price = price;
+            Status = status;
+            CreatedTime = createdTime;
+        }
     }
 
     public enum ProductStatus
