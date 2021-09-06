@@ -30,7 +30,7 @@ namespace ProductGrpc.Services
                 Description = product.Description,
                 Price = product.Price,
                 Status = ProductStatus.Instock,
-                CreatedTime = Timestamp.FromDateTime(product.CreatedTime)
+                CreatedTime = Timestamp.FromDateTime(DateTime.UtcNow)
             };
             return productModel;
         }
