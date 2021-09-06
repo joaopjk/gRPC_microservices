@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Grpc.Core;
 using Grpc.Net.Client;
 using ProductGrpc.Protos;
 
@@ -29,11 +30,17 @@ namespace ProductGrpcClient
             {
                 while (await clientData.ResponseStream.MoveNext(new CancellationToken()))
                 {
-                    var currectProduct = clientData.ResponseStream.Current;
-                    Console.WriteLine(currectProduct);
+                    var current = clientData.ResponseStream.Current;
+                    Console.WriteLine(current);
                 }
             }
-            
+
+            //GetAllProductsAsync with C# 9
+            using var clientData2 = client.GetAllProducts(new GetAllProductsRequest());
+            await foreach (var responseData in clientData2.ResponseStream.ReadAllAsync())
+            {
+                Console.WriteLine(responseData);
+            }
             Console.ReadKey();
         }
     }
