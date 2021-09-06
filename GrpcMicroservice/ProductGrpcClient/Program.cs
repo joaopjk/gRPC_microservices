@@ -22,7 +22,19 @@ namespace ProductGrpcClient
             //GetProductAsync
             var response = await client.GetProductAsync(
                 new GetProductRequest { ProductId = 1 });
-            Console.WriteLine(Convert.ToString(response));
+            Console.WriteLine("GetProductAsync:" + Convert.ToString(response));
+
+            //GetAllProductsAsync
+            using (var clientData = client.GetAllProducts(new GetAllProductsRequest()))
+            {
+                while (await clientData.ResponseStream.MoveNext(new CancellationToken()))
+                {
+                    var currectProduct = clientData.ResponseStream.Current;
+                    Console.WriteLine(currectProduct);
+                }
+            }
+            
+            Console.ReadKey();
         }
     }
 }
