@@ -79,8 +79,27 @@ namespace ProductGrpcClient
                 {
                     ProductId = 2
                 });
-
             Console.WriteLine("DeleteProductAsync" + deleteProductAsync.ToString());
+
+            //InsertBulkAsync
+            using var insertBulk = client.InsertBulkProduct();
+
+            for (int i = 0; i < 3; i++)
+            {
+                var productModel = new ProductModel()
+                {
+                    Name = $"Product {i}",
+                    Description = "Test",
+                    Price = 1000,
+                    Status = ProductStatus.Instock,
+                    CreatedTime = Timestamp.FromDateTime(DateTime.UtcNow)
+                };
+                await insertBulk.RequestStream.WriteAsync(productModel);
+            }
+
+            await insertBulk.RequestStream.CompleteAsync();
+            var responseBulk = await insertBulk;
+            Console.WriteLine("InsertBulkAsync" + responseBulk.InsertCount);
             Console.ReadKey();
         }
     }
