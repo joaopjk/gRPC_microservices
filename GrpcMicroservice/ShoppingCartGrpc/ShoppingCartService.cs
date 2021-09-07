@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -11,10 +12,13 @@ namespace ShoppingCartGrpc
     public class ShoppingCartService : ShoppingCartProtoService.ShoppingCartProtoServiceBase
     {
         private readonly ShoppingCartContext _shoppingCartDbContext;
-                private readonly ILogger<ShoppingCartService> _logger;
-        public ShoppingCartService(ShoppingCartContext shoppingCartDbContext, ILogger<ShoppingCartService> logger)
+        private readonly IMapper _mapper;
+        private readonly ILogger<ShoppingCartService> _logger;
+
+        public ShoppingCartService(ShoppingCartContext shoppingCartDbContext, IMapper mapper, ILogger<ShoppingCartService> logger)
         {
             _shoppingCartDbContext = shoppingCartDbContext;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -27,8 +31,7 @@ namespace ShoppingCartGrpc
                 throw new RpcException(new Status(StatusCode.NotFound,
                     $"Shopping Cart whit UserName={request.Username} not found"));
 
-            //var shoppingCartModel = _mapper.Map<ShoppingCartModel>(shoppingCartModel)
-            var shoppingCartModel = new ShoppingCartModel();
+            var shoppingCartModel = _mapper.Map<ShoppingCartModel>(shoppingCart);
             return shoppingCartModel;
         }
 
