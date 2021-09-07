@@ -9,7 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{7A4A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductGrpcClient", "ProductGrpcClient\ProductGrpcClient.csproj", "{1BA0D333-8510-45E8-90CD-45BC7E94FEFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWorkerService", "ProductWorkerService\ProductWorkerService.csproj", "{CFD0AFCC-6770-4CD9-973F-077025558714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductWorkerService", "ProductWorkerService\ProductWorkerService.csproj", "{CFD0AFCC-6770-4CD9-973F-077025558714}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{B2DFDD4C-1B45-496B-909A-6CA182B212A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{867D8D54-4351-407F-A1A9-35770C7E9A1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +33,17 @@ Global
 		{CFD0AFCC-6770-4CD9-973F-077025558714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD0AFCC-6770-4CD9-973F-077025558714}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFD0AFCC-6770-4CD9-973F-077025558714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{867D8D54-4351-407F-A1A9-35770C7E9A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{867D8D54-4351-407F-A1A9-35770C7E9A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{867D8D54-4351-407F-A1A9-35770C7E9A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{867D8D54-4351-407F-A1A9-35770C7E9A1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1BA0D333-8510-45E8-90CD-45BC7E94FEFE} = {7A4A85C7-690E-4F19-B186-661C37D6EA7D}
+		{867D8D54-4351-407F-A1A9-35770C7E9A1F} = {B2DFDD4C-1B45-496B-909A-6CA182B212A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0235CFC9-F121-4FD8-8CD4-A7C4F4EB2E3C}
