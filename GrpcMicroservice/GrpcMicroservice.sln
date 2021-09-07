@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductGrpc", "ProductGrpc\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{7A4A85C7-690E-4F19-B186-661C37D6EA7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductGrpcClient", "ProductGrpcClient\ProductGrpcClient.csproj", "{1BA0D333-8510-45E8-90CD-45BC7E94FEFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductGrpcClient", "ProductGrpcClient\ProductGrpcClient.csproj", "{1BA0D333-8510-45E8-90CD-45BC7E94FEFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWorkerServiceGrpc", "ProductWorkerServiceGrpc\ProductWorkerServiceGrpc.csproj", "{159F44E1-CDA5-4B39-BB9C-70531EEA1AF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{1BA0D333-8510-45E8-90CD-45BC7E94FEFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BA0D333-8510-45E8-90CD-45BC7E94FEFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BA0D333-8510-45E8-90CD-45BC7E94FEFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{159F44E1-CDA5-4B39-BB9C-70531EEA1AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{159F44E1-CDA5-4B39-BB9C-70531EEA1AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{159F44E1-CDA5-4B39-BB9C-70531EEA1AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{159F44E1-CDA5-4B39-BB9C-70531EEA1AF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
