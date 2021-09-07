@@ -55,9 +55,32 @@ namespace ProductGrpcClient
                     CreatedTime = Timestamp.FromDateTime(DateTime.UtcNow)
                 }
             });
-            Console.WriteLine("addProductAsync" + addProductAsync.ToString());
+            Console.WriteLine("AddProductAsync" + addProductAsync.ToString());
 
-            //UpdateProducts
+            //UpdateProductsAsync
+            var updateProductResponse = await client.UpdateProductAsync(
+                new UpdateProductRequest()
+                {
+                    Product = new ProductModel()
+                    {
+                        ProductId = 1,
+                        Name = "Test",
+                        Description = "Test",
+                        Price = 1000,
+                        Status = ProductStatus.Instock,
+                        CreatedTime = Timestamp.FromDateTime(DateTime.UtcNow)
+                    }
+                });
+            Console.WriteLine("UpdateProductsAsync" + updateProductResponse.ToString());
+
+            //DeleteProductAsync
+            var deleteProductAsync = await client.DeleteProductAsync(
+                new DeleteProductRequest()
+                {
+                    ProductId = 2
+                });
+
+            Console.WriteLine("DeleteProductAsync" + deleteProductAsync.ToString());
             Console.ReadKey();
         }
     }
