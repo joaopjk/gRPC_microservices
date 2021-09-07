@@ -21,6 +21,7 @@ namespace ShoppingCartGrpc
             {
                 options.UseInMemoryDatabase("ShoppingCart");
             });
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
