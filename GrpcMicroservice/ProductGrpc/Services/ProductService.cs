@@ -43,7 +43,7 @@ namespace ProductGrpc.Services
         {
             var productList = await _productsContext.Product.ToListAsync();
 
-            if(productList == null) throw new RpcException(new Status(StatusCode.NotFound, $"Products NotFound!"));
+            if (productList == null) throw new RpcException(new Status(StatusCode.NotFound, $"Products NotFound!"));
 
             foreach (var product in productList)
             {
@@ -84,7 +84,7 @@ namespace ProductGrpc.Services
             {
                 await _productsContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
                 throw;
             }
@@ -107,9 +107,21 @@ namespace ProductGrpc.Services
             };
         }
 
-        public override Task<InsertBulkProductResponse> InsertBulkProduct(IAsyncStreamReader<ProductModel> requestStream, ServerCallContext context)
+        public override async Task<InsertBulkProductResponse> InsertBulkProduct(IAsyncStreamReader<ProductModel> requestStream, ServerCallContext context)
         {
-            return base.InsertBulkProduct(requestStream, context);
+            while (await requestStream.MoveNext())
+            {
+                var product = Product(requestStream.Current);
+                _productsContext.Product.Add(product);
+            }
+
+            var insertCount = await _productsContext.SaveChangesAsync();
+
+            return new InsertBulkProductResponse()
+            {
+                Success = insertCount > 0,
+                InsertCount = insertCount
+            };
         }
 
         public override Task<Empty> Test(Empty request, ServerCallContext context)
