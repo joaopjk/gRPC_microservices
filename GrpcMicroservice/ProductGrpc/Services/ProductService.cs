@@ -5,7 +5,9 @@ using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ProductGrpc.Data;
+using ProductGrpc.Models;
 using ProductGrpc.Protos;
+using ProductStatus = ProductGrpc.Protos.ProductStatus;
 
 namespace ProductGrpc.Services
 {
@@ -55,9 +57,21 @@ namespace ProductGrpc.Services
             }
         }
 
-        public override Task<ProductModel> AddProduct(AddProductRequest request, ServerCallContext context)
+        public override async Task<ProductModel> AddProduct(AddProductRequest request, ServerCallContext context)
         {
-            return base.AddProduct(request, context);
+            var product = new Product()
+            {
+                ProductId = request.Product.ProductId,
+                Name = request.Product.Name,
+                Description = request.Product.Description,
+                Price = request.Product.Price,
+                Status = Models.ProductStatus.Instock,
+                CreatedTime = DateTime.UtcNow
+            };
+
+            _productsContext.Add(product);
+            await _productsContext.SaveChangesAsync();
+            return ProductToProductModel(product);
         }
 
         public override Task<ProductModel> UpdateProduct(UpdateProductRequest request, ServerCallContext context)
@@ -79,6 +93,19 @@ namespace ProductGrpc.Services
         {
             _logger.Log(LogLevel.Information, "Test class [ProductService]");
             return base.Test(request, context);
+        }
+
+        private ProductModel ProductToProductModel(Product product)
+        {
+            return new ProductModel()
+            {
+                ProductId = product.ProductId,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Status = ProductStatus.Instock,
+                CreatedTime = Timestamp.FromDateTime(DateTime.UtcNow)
+            };
         }
     }
 }

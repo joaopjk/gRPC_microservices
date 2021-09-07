@@ -11,6 +11,8 @@ namespace ProductGrpc.Models
         public ProductStatus Status { get; set; }
         public DateTime CreatedTime { get; set; }
 
+        public Product() { }
+
         public Product(int productId, string name, string description, float price, ProductStatus status, DateTime createdTime)
         {
             ProductId = productId;
