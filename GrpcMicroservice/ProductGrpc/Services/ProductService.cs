@@ -26,6 +26,7 @@ namespace ProductGrpc.Services
         {
             var product = await _productsContext.Product.FindAsync(request.ProductId);
             _logger.Log(LogLevel.Information, $"GetProduct returns: {Convert.ToString(request)}");
+            if (product == null) throw new RpcException(new Status(StatusCode.NotFound, $"Products whit id={request.ProductId} NotFound!"));
             var productModel = new ProductModel
             {
                 ProductId = product.ProductId,
@@ -41,6 +42,8 @@ namespace ProductGrpc.Services
         public override async Task GetAllProducts(GetAllProductsRequest request, IServerStreamWriter<ProductModel> responseStream, ServerCallContext context)
         {
             var productList = await _productsContext.Product.ToListAsync();
+
+            if(productList == null) throw new RpcException(new Status(StatusCode.NotFound, $"Products NotFound!"));
 
             foreach (var product in productList)
             {
@@ -73,7 +76,7 @@ namespace ProductGrpc.Services
             bool isExist = await _productsContext.Product.AnyAsync(p => p.ProductId == product.ProductId);
             if (!isExist)
             {
-                //throw an rpc exception
+                throw new RpcException(new Status(StatusCode.NotFound, $"Products whit id={product.ProductId} NotFound!"));
             }
 
             _productsContext.Entry(product).State = EntityState.Modified;
@@ -94,7 +97,7 @@ namespace ProductGrpc.Services
             var product = await _productsContext.Product.FindAsync(request.ProductId);
             if (product == null)
             {
-                //throw an rpc exception
+                throw new RpcException(new Status(StatusCode.NotFound, $"Products whit id={request.ProductId} NotFound!"));
             }
 
             _productsContext.Product.Remove(product);
