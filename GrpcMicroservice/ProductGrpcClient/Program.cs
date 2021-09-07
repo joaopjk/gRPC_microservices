@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using ProductGrpc.Protos;
@@ -41,6 +42,20 @@ namespace ProductGrpcClient
             {
                 Console.WriteLine(responseData);
             }
+
+            //AddProductAsync
+            var addProductAsync = await client.AddProductAsync(new AddProductRequest()
+            {
+                Product = new ProductModel()
+                {
+                    Name ="Test",
+                    Description = "Test",
+                    Price = 1000,
+                    Status = ProductStatus.Instock,
+                    CreatedTime = Timestamp.FromDateTime(DateTime.UtcNow)
+                }
+            });
+            Console.WriteLine("addProductAsync" + addProductAsync.ToString());
             Console.ReadKey();
         }
     }
