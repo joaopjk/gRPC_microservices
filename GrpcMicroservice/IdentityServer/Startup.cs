@@ -10,7 +10,10 @@ namespace IdentityServer
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer();
+            services.AddIdentityServer()
+                .AddInMemoryClients(Config.Clients)
+                .AddInMemoryApiScopes(Config.ApiScopes)
+                .AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
