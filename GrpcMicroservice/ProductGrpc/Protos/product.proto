@@ -34,7 +34,7 @@ message DeleteProductRequest {
 }
 
 message DeleteProductResponse {
-	int32 success = 1;
+	bool success = 1;
 }
 
 message InsertBulkProductResponse {

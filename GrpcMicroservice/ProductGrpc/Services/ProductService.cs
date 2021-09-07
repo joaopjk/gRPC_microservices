@@ -59,29 +59,49 @@ namespace ProductGrpc.Services
 
         public override async Task<ProductModel> AddProduct(AddProductRequest request, ServerCallContext context)
         {
-            var product = new Product()
-            {
-                ProductId = request.Product.ProductId,
-                Name = request.Product.Name,
-                Description = request.Product.Description,
-                Price = request.Product.Price,
-                Status = Models.ProductStatus.Instock,
-                CreatedTime = DateTime.UtcNow
-            };
+            var product = Product(request.Product);
 
             _productsContext.Add(product);
             await _productsContext.SaveChangesAsync();
+
             return ProductToProductModel(product);
         }
 
-        public override Task<ProductModel> UpdateProduct(UpdateProductRequest request, ServerCallContext context)
+        public override async Task<ProductModel> UpdateProduct(UpdateProductRequest request, ServerCallContext context)
         {
-            return base.UpdateProduct(request, context);
+            var product = Product(request.Product);
+            bool isExist = await _productsContext.Product.AnyAsync(p => p.ProductId == product.ProductId);
+            if (!isExist)
+            {
+                //throw an rpc exception
+            }
+
+            _productsContext.Entry(product).State = EntityState.Modified;
+            try
+            {
+                await _productsContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException )
+            {
+                throw;
+            }
+
+            return ProductToProductModel(product);
         }
 
-        public override Task<DeleteProductResponse> DeleteProduct(DeleteProductRequest request, ServerCallContext context)
+        public override async Task<DeleteProductResponse> DeleteProduct(DeleteProductRequest request, ServerCallContext context)
         {
-            return base.DeleteProduct(request, context);
+            var product = await _productsContext.Product.FindAsync(request.ProductId);
+            if (product == null)
+            {
+                //throw an rpc exception
+            }
+
+            _productsContext.Product.Remove(product);
+            return new DeleteProductResponse()
+            {
+                Success = await _productsContext.SaveChangesAsync() > 0
+            };
         }
 
         public override Task<InsertBulkProductResponse> InsertBulkProduct(IAsyncStreamReader<ProductModel> requestStream, ServerCallContext context)
@@ -106,6 +126,20 @@ namespace ProductGrpc.Services
                 Status = ProductStatus.Instock,
                 CreatedTime = Timestamp.FromDateTime(DateTime.UtcNow)
             };
+        }
+
+        private static Product Product(ProductModel request)
+        {
+            var product = new Product()
+            {
+                ProductId = request.ProductId,
+                Name = request.Name,
+                Description = request.Description,
+                Price = request.Price,
+                Status = Models.ProductStatus.Instock,
+                CreatedTime = DateTime.UtcNow
+            };
+            return product;
         }
     }
 }

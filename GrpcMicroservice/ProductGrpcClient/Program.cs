@@ -56,6 +56,7 @@ namespace ProductGrpcClient
                 }
             });
             Console.WriteLine("addProductAsync" + addProductAsync.ToString());
+
             Console.ReadKey();
         }
     }
