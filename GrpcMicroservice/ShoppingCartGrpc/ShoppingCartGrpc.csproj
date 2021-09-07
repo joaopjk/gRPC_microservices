@@ -14,4 +14,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Protobuf Include="Protos\shoppingcart.proto" GrpcServices="Server" />
+  </ItemGroup>
+
 </Project>
